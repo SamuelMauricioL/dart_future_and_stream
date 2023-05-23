@@ -2,9 +2,12 @@ import 'package:future_and_stream/src/core/exeptions.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Request> _getCoffeList() async {
+  // return Future.value(
+  //   http.Request('GET', Uri.parse('https://api.sampleapis.com/coffee/hot')),
+  // );
   // return http.get(Uri.parse('https://api.sampleapis.com/coffee/hot'));
   // throw HttpException('[Error] HttpException Exception');
-  throw CustomException('[Error] CustomException Exception');
+  throw HttpException('[Error] HttpException Exception');
 }
 
 void getCoffeList() {
@@ -60,7 +63,7 @@ void getCoffeListWithCompleted() {
   ).whenComplete(() => print('[Completed]: to do something'));
 }
 
-void getCoffeListWithAsyncAwait() async {
+Future<void> getCoffeListWithAsyncAwait() async {
   try {
     final coffeeList = await _getCoffeList();
     print(coffeeList.body);
@@ -73,7 +76,7 @@ void getCoffeListWithAsyncAwait() async {
   }
 }
 
-void getCoffeListWithAsyncAwaitAndFinally() async {
+Future<void> getCoffeListWithAsyncAwaitAndFinally() async {
   try {
     final coffeeList = await _getCoffeList();
     print(coffeeList.body);
@@ -88,7 +91,7 @@ void getCoffeListWithAsyncAwaitAndFinally() async {
   }
 }
 
-void getCoffeListWithAsyncAwaitAndFinallyAndStackTrace() async {
+Future<void> getCoffeListWithAsyncAwaitAndFinallyAndStackTrace() async {
   try {
     final coffeeList = await _getCoffeList();
     print(coffeeList.body);
@@ -126,4 +129,12 @@ Future<void>
   } finally {
     print('[Finally]: to do something');
   }
+}
+
+Future<void> callMultipleFutures() {
+  return Future.wait([
+    getCoffeListWithAsyncAwait(),
+    getCoffeListWithAsyncAwait(),
+    getCoffeListWithAsyncAwait(),
+  ]);
 }
